@@ -49,4 +49,10 @@ public class MemoController {
         memoService.updateMemo(id, requestDto.getTitle(), requestDto.getContents());
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        memoService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
