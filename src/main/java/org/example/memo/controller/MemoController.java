@@ -37,4 +37,9 @@ public class MemoController {
         return new ResponseEntity<>(memoGetResponseDto, HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<List<MemoResponseDto>> findAll() {
+        List<MemoResponseDto> memoResponseDtoList = memoService.findAll();
+        return new ResponseEntity<>(memoResponseDtoList, HttpStatus.OK);
+    }
 }

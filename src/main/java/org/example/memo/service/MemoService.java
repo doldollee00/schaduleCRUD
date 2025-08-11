@@ -29,7 +29,9 @@ public class MemoService {
                 savedMemo.getId(),
                 savedMemo.getUsername(),
                 savedMemo.getTitle(),
-                savedMemo.getContents()
+                savedMemo.getContents(),
+                savedMemo.getCreatedDate(),
+                savedMemo.getModifiedDate()
         );
     }
 
@@ -51,5 +53,24 @@ public class MemoService {
                 findMemo.getCreatedDate(),
                 findMemo.getModifiedDate()
         );
+    }
+
+    @Transactional(readOnly = true)
+    public List<MemoResponseDto> findAll() {
+        List<Memo> memos = memoRepository.findAll();
+        List<MemoResponseDto> dtos = new ArrayList<>();
+
+        for(Memo memo : memos){
+            MemoResponseDto memoResponseDto = new MemoResponseDto(
+                    memo.getId(),
+                    memo.getUsername(),
+                    memo.getTitle(),
+                    memo.getContents(),
+                    memo.getCreatedDate(),
+                    memo.getModifiedDate()
+            );
+            dtos.add(memoResponseDto);
+        }
+        return dtos;
     }
 }
