@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.memo.dto.CreateMemoRequestDto;
 import org.example.memo.dto.MemoGetResponseDto;
 import org.example.memo.dto.MemoResponseDto;
+import org.example.memo.dto.UpdateMemoRequestDto;
 import org.example.memo.repository.MemoRepository;
 import org.example.memo.service.MemoService;
 import org.springframework.http.HttpStatus;
@@ -41,5 +42,11 @@ public class MemoController {
     public ResponseEntity<List<MemoResponseDto>> findAll() {
         List<MemoResponseDto> memoResponseDtoList = memoService.findAll();
         return new ResponseEntity<>(memoResponseDtoList, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateMemo(@PathVariable Long id, @RequestBody UpdateMemoRequestDto requestDto) {
+        memoService.updateMemo(id, requestDto.getTitle(), requestDto.getContents());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

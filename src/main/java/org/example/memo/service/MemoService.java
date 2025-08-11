@@ -73,4 +73,11 @@ public class MemoService {
         }
         return dtos;
     }
+
+@Transactional
+    public void updateMemo(Long id, String title, String contents) {
+        Memo findMemo = memoRepository.findByIdOrElseThrow(id);
+
+        findMemo.updateMemo(title, contents);
+    }
 }
