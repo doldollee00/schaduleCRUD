@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.memo.dto.MemberResponseDto;
 import org.example.memo.dto.SignUpResponseDto;
 import org.example.memo.entity.Member;
+import org.example.memo.entity.Memo;
 import org.example.memo.repository.MemberRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,10 @@ public class MemberService {
     public void updateMember(Long userId, String username, String email) {
         Member findMember = memberRepository.findByIdOrElseThrow(userId);
         findMember.updateMember(username, email);
-        
+    }
+
+    public void delete(Long userId) {
+        Member findMember = memberRepository.findByIdOrElseThrow(userId);
+        memberRepository.delete(findMember);
     }
 }
