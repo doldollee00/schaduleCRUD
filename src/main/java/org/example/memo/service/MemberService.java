@@ -7,6 +7,7 @@ import org.example.memo.entity.Member;
 import org.example.memo.repository.MemberRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -37,5 +38,12 @@ public class MemberService {
         Member findMember = optionalMember.get();
 
         return new MemberResponseDto(findMember.getUsername(), findMember.getEmail(), findMember.getCreatedDate(), findMember.getModifiedDate());
+    }
+
+    @Transactional
+    public void updateMember(Long userId, String username, String email) {
+        Member findMember = memberRepository.findByIdOrElseThrow(userId);
+        findMember.updateMember(username, email);
+        
     }
 }
