@@ -23,7 +23,7 @@ public class MemberService {
 
         Member savedMember = memberRepository.save(member);
 
-        return new SignUpResponseDto(savedMember.getUserId(), savedMember.getUsername(), savedMember.getEmail());
+        return new SignUpResponseDto(savedMember.getUserId(), savedMember.getUsername(), savedMember.getEmail(), savedMember.getCreatedDate(), savedMember.getModifiedDate());
     }
 
     public MemberResponseDto findById(Long userId) {
@@ -36,6 +36,6 @@ public class MemberService {
 
         Member findMember = optionalMember.get();
 
-        return new MemberResponseDto(findMember.getUsername(), findMember.getEmail());
+        return new MemberResponseDto(findMember.getUsername(), findMember.getEmail(), findMember.getCreatedDate(), findMember.getModifiedDate());
     }
 }
