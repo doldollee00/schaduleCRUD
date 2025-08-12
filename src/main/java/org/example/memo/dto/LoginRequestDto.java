@@ -3,14 +3,12 @@ package org.example.memo.dto;
 import lombok.Getter;
 
 @Getter
-public class SignUpRequestDto {
+public class LoginRequestDto {
 
-    private final String username;
     private final String email;
     private final String password;
 
-    public SignUpRequestDto(String username, String email, String password) {
-        this.username = username;
+    public LoginRequestDto(String email, String password) {
         this.email = email;
         this.password = password;
     }

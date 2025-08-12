@@ -17,12 +17,12 @@ public class Member extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    private Long password;
+    private String password;
 
-    public Member(String username, String email, Long password) {
+    public Member(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;

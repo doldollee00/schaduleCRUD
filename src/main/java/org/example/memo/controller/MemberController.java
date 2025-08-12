@@ -3,15 +3,15 @@ package org.example.memo.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.example.memo.dto.MemberResponseDto;
-import org.example.memo.dto.SignUpRequestDto;
-import org.example.memo.dto.SignUpResponseDto;
-import org.example.memo.dto.UpdateMemberRequestDto;
+import org.example.memo.dto.*;
+import org.example.memo.entity.Member;
+import org.example.memo.repository.MemberRepository;
 import org.example.memo.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/members")
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto requestDto) {
@@ -45,16 +46,25 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //로그인
+//    //로그인
+//    @PostMapping("/login")
+//    public String login(HttpServletRequest request) {
+//        MemberResponseDto memberRes = memberService.findId();
+//
+//        HttpSession session = request.getSession();    // 신규 세션 생성, JSESSIONID 쿠키 발급
+//        session.setAttribute("LOGIN_USER", memberRes.getUsername());   // 서버 메모리에 세션 저장
+//        return "로그인 성공";   //ResponseEntity 를 쓰면 좀 더 직관적으로 표현 할 수 있음
+//
+//    }
     @PostMapping("/login")
-    public String login(HttpServletRequest request) {
-        MemberResponseDto memberRes = memberService.findId();
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletRequest request){
+        Member authenticate = memberService.authenticate(requestDto.getEmail(), requestDto.getPassword());
 
         HttpSession session = request.getSession();    // 신규 세션 생성, JSESSIONID 쿠키 발급
-        session.setAttribute("LOGIN_USER", memberRes.getUsername());   // 서버 메모리에 세션 저장
-        return "로그인 성공";   //ResponseEntity 를 쓰면 좀 더 직관적으로 표현 할 수 있음
-
+        session.setAttribute("LOGIN_USER", authenticate.getUsername());   // 서버 메모리에 세션 저장
+        return ResponseEntity.ok(new LoginResponseDto(authenticate.getUsername(), authenticate.getEmail()));
     }
+
 
     //로그아웃, 쿠키를 지워 주겠다 정도의 의미 (로그아웃의 경우는 필수 조건은 아니다. 왜냐면 보통 그냥 강종 하니깐)
     @PostMapping("/logout")

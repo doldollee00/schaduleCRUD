@@ -24,11 +24,11 @@ public class Memo extends BaseEntity {
     @Column(columnDefinition = "longtext")
     private String contents;
 
-//
-//    //N:1 단방향 연관관계
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id", nullable = false)
-//    private Member member;
+
+    //N:1 단방향 연관관계
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     public Memo(String username, String title, String contents) {
         this.username = username;
