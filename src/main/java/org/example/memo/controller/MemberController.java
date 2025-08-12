@@ -1,5 +1,7 @@
 package org.example.memo.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.memo.dto.MemberResponseDto;
 import org.example.memo.dto.SignUpRequestDto;
@@ -43,4 +45,25 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //로그인
+    @PostMapping("/login")
+    public String login(HttpServletRequest request) {
+        MemberResponseDto memberRes = memberService.findId();
+
+        HttpSession session = request.getSession();    // 신규 세션 생성, JSESSIONID 쿠키 발급
+        session.setAttribute("LOGIN_USER", memberRes.getUsername());   // 서버 메모리에 세션 저장
+        return "로그인 성공";   //ResponseEntity 를 쓰면 좀 더 직관적으로 표현 할 수 있음
+
+    }
+
+    //로그아웃, 쿠키를 지워 주겠다 정도의 의미 (로그아웃의 경우는 필수 조건은 아니다. 왜냐면 보통 그냥 강종 하니깐)
+    @PostMapping("/logout")
+    public void logout(HttpServletRequest request) {
+        // 로그인하지 않으면 HttpSession이 null로 반환된다.
+        HttpSession session = request.getSession(false);
+        // 세션이 존재하면 -> 로그인이 된 경우
+        if (session != null) {
+            session.invalidate(); // 해당 세션(데이터)을 삭제한다.
+        }
+    }
 }

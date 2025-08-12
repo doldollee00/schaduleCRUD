@@ -49,4 +49,13 @@ public class MemberService {
         Member findMember = memberRepository.findByIdOrElseThrow(id);
         memberRepository.delete(findMember);
     }
+
+    //유저가 한명이라도 있는지 확인 *******(수정 예정)*******
+    @Transactional(readOnly = true)
+    public MemberResponseDto findId() {
+        Member member = memberRepository.findById(1L).orElseThrow(
+                ()-> new IllegalArgumentException("그런 사람 없음")
+        );
+        return new MemberResponseDto(member.getUsername(), member.getEmail(), member.getCreatedDate(), member.getModifiedDate());
+    }
 }
