@@ -2,15 +2,17 @@ package org.example.memo.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@NoArgsConstructor
 @Table(name = "member")
 public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -18,12 +20,12 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String email;
 
-    public Member() {
-    }
+    private Long password;
 
-    public Member(String username, String email) {
+    public Member(String username, String email, Long password) {
         this.username = username;
         this.email = email;
+        this.password = password;
     }
 
     public void updateMember(String username, String email) {

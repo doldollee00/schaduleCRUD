@@ -20,26 +20,26 @@ public class MemberController {
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto requestDto) {
-        SignUpResponseDto signUpResponseDto = memberService.signUp(requestDto.getUsername(), requestDto.getEmail());
+        SignUpResponseDto signUpResponseDto = memberService.signUp(requestDto.getUsername(), requestDto.getEmail(), requestDto.getPassword());
 
         return new ResponseEntity<>(signUpResponseDto, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<MemberResponseDto> findById(@PathVariable Long userId) {
-        MemberResponseDto memberResponseDto = memberService.findById(userId);
+    @GetMapping("/{id}")
+    public ResponseEntity<MemberResponseDto> findById(@PathVariable Long id) {
+        MemberResponseDto memberResponseDto = memberService.findById(id);
         return new ResponseEntity<>(memberResponseDto, HttpStatus.OK);
     }
 
-    @PatchMapping("/{userId}")
-    public ResponseEntity<Void> updateMember(@PathVariable Long userId, @RequestBody UpdateMemberRequestDto requestDto) {
-        memberService.updateMember(userId, requestDto.getUsername(), requestDto.getEmail());
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateMember(@PathVariable Long id, @RequestBody UpdateMemberRequestDto requestDto) {
+        memberService.updateMember(id, requestDto.getUsername(), requestDto.getEmail());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> delete(@PathVariable Long userId) {
-        memberService.delete(userId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        memberService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

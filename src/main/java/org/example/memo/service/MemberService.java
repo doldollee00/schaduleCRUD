@@ -19,36 +19,34 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public SignUpResponseDto signUp(String username, String email) {
+    public SignUpResponseDto signUp(String username, String email, Long password) {
 
-        Member member = new Member(username, email);
-
+        Member member = new Member(username, email, password);
         Member savedMember = memberRepository.save(member);
 
-        return new SignUpResponseDto(savedMember.getUserId(), savedMember.getUsername(), savedMember.getEmail(), savedMember.getCreatedDate(), savedMember.getModifiedDate());
+        return new SignUpResponseDto(savedMember.getId(), savedMember.getUsername(), savedMember.getEmail(), savedMember.getCreatedDate(), savedMember.getModifiedDate());
     }
 
-    public MemberResponseDto findById(Long userId) {
-        Optional<Member> optionalMember = memberRepository.findById(userId);
+    public MemberResponseDto findById(Long id) {
+        Optional<Member> optionalMember = memberRepository.findById(id);
 
         // NPE 방지
         if (optionalMember.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + userId);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
         }
-
         Member findMember = optionalMember.get();
 
         return new MemberResponseDto(findMember.getUsername(), findMember.getEmail(), findMember.getCreatedDate(), findMember.getModifiedDate());
     }
 
     @Transactional
-    public void updateMember(Long userId, String username, String email) {
-        Member findMember = memberRepository.findByIdOrElseThrow(userId);
+    public void updateMember(Long id, String username, String email) {
+        Member findMember = memberRepository.findByIdOrElseThrow(id);
         findMember.updateMember(username, email);
     }
 
-    public void delete(Long userId) {
-        Member findMember = memberRepository.findByIdOrElseThrow(userId);
+    public void delete(Long id) {
+        Member findMember = memberRepository.findByIdOrElseThrow(id);
         memberRepository.delete(findMember);
     }
 }

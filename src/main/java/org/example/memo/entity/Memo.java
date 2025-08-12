@@ -2,9 +2,11 @@ package org.example.memo.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
+@NoArgsConstructor
 @Table(name = "memo")
 public class Memo extends BaseEntity {
 
@@ -22,8 +24,10 @@ public class Memo extends BaseEntity {
     @Column(columnDefinition = "longtext")
     private String contents;
 
-    public Memo() {
-    }
+    //N:1 단방향 연관관계
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
     public Memo(String username, String title, String contents) {
         this.username = username;
