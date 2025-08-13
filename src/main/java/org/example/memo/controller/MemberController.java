@@ -46,7 +46,7 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    //로그인
+    //    //로그인
 //    @PostMapping("/login")
 //    public String login(HttpServletRequest request) {
 //        MemberResponseDto memberRes = memberService.findId();

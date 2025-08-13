@@ -15,8 +15,8 @@ public class Memo extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
+//    @Column(nullable = false, unique = true)
+//    private String username;
 
     @Column(nullable = false)
     private String title;
@@ -30,10 +30,16 @@ public class Memo extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    public Memo(String username, String title, String contents) {
-        this.username = username;
+//    public Memo(String username, String title, String contents) {
+//        this.username = username;
+//        this.title = title;
+//        this.contents = contents;
+//    }
+
+    public Memo(String title, String contents, Member member) {
         this.title = title;
         this.contents = contents;
+        this.member = member;
     }
 
     public void updateMemo(String title, String contents) {

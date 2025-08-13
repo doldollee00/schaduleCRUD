@@ -14,20 +14,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/memos")
+@RequestMapping("/members/{memberId}/memos")
 @RequiredArgsConstructor
 public class MemoController {
 
     private final MemoService memoService;
 
+//    @PostMapping
+//    public ResponseEntity<MemoResponseDto> save(@RequestBody CreateMemoRequestDto requestDto) {
+//
+//        MemoResponseDto memoResponseDto =
+//                memoService.save(requestDto.getUsername(),
+//                        requestDto.getTitle(),
+//                        requestDto.getContents()
+//                );
+//        return new ResponseEntity<>(memoResponseDto, HttpStatus.CREATED);
+//    }
+
     @PostMapping
-    public ResponseEntity<MemoResponseDto> save(@RequestBody CreateMemoRequestDto requestDto) {
+    public ResponseEntity<MemoResponseDto> create(@RequestBody CreateMemoRequestDto requestDto, @PathVariable Long memberId) {
 
         MemoResponseDto memoResponseDto =
-                memoService.save(requestDto.getUsername(),
-                                 requestDto.getTitle(),
-                                 requestDto.getContents()
-                        );
+                memoService.save(
+                        requestDto.getTitle(),
+                        requestDto.getContents(),
+                        memberId
+                );
         return new ResponseEntity<>(memoResponseDto, HttpStatus.CREATED);
     }
 
