@@ -21,6 +21,7 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
 
+    //회원가입
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto requestDto) {
         SignUpResponseDto signUpResponseDto = memberService.signUp(requestDto.getUsername(), requestDto.getEmail(), requestDto.getPassword());
@@ -28,34 +29,28 @@ public class MemberController {
         return new ResponseEntity<>(signUpResponseDto, HttpStatus.CREATED);
     }
 
+    //회원 id기준 검색
     @GetMapping("/{id}")
     public ResponseEntity<MemberResponseDto> findById(@PathVariable Long id) {
         MemberResponseDto memberResponseDto = memberService.findById(id);
         return new ResponseEntity<>(memberResponseDto, HttpStatus.OK);
     }
 
+    //회원 id기준 정보 업데이트
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updateMember(@PathVariable Long id, @RequestBody UpdateMemberRequestDto requestDto) {
         memberService.updateMember(id, requestDto.getUsername(), requestDto.getEmail());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //회원 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         memberService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //    //로그인
-//    @PostMapping("/login")
-//    public String login(HttpServletRequest request) {
-//        MemberResponseDto memberRes = memberService.findId();
-//
-//        HttpSession session = request.getSession();    // 신규 세션 생성, JSESSIONID 쿠키 발급
-//        session.setAttribute("LOGIN_USER", memberRes.getUsername());   // 서버 메모리에 세션 저장
-//        return "로그인 성공";   //ResponseEntity 를 쓰면 좀 더 직관적으로 표현 할 수 있음
-//
-//    }
+    //회원 로그인
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletRequest request){
         Member authenticate = memberService.authenticate(requestDto.getEmail(), requestDto.getPassword());

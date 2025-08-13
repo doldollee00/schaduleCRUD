@@ -18,10 +18,10 @@ public class Memo extends BaseEntity {
 //    @Column(nullable = false, unique = true)
 //    private String username;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 200)
     private String title;
 
-    @Column(columnDefinition = "longtext")
+    @Column(nullable = false, columnDefinition = "longtext")
     private String contents;
 
 
@@ -30,18 +30,20 @@ public class Memo extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-//    public Memo(String username, String title, String contents) {
-//        this.username = username;
-//        this.title = title;
-//        this.contents = contents;
-//    }
-
+    //Member와 연관관계 생성자
     public Memo(String title, String contents, Member member) {
         this.title = title;
         this.contents = contents;
         this.member = member;
     }
 
+//    public Memo(String username, String title, String contents) {
+//        this.username = username;
+//        this.title = title;
+//        this.contents = contents;
+//    }
+
+    //메모 업데이트 생성자
     public void updateMemo(String title, String contents) {
         this.title = title;
         this.contents = contents;

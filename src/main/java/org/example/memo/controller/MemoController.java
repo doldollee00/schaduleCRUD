@@ -20,17 +20,7 @@ public class MemoController {
 
     private final MemoService memoService;
 
-//    @PostMapping
-//    public ResponseEntity<MemoResponseDto> save(@RequestBody CreateMemoRequestDto requestDto) {
-//
-//        MemoResponseDto memoResponseDto =
-//                memoService.save(requestDto.getUsername(),
-//                        requestDto.getTitle(),
-//                        requestDto.getContents()
-//                );
-//        return new ResponseEntity<>(memoResponseDto, HttpStatus.CREATED);
-//    }
-
+    //회원 로그인 후 메모 작성
     @PostMapping
     public ResponseEntity<MemoResponseDto> create(@RequestBody CreateMemoRequestDto requestDto, @PathVariable Long memberId) {
 
@@ -43,6 +33,19 @@ public class MemoController {
         return new ResponseEntity<>(memoResponseDto, HttpStatus.CREATED);
     }
 
+    //메모 작성
+    //    @PostMapping
+//    public ResponseEntity<MemoResponseDto> save(@RequestBody CreateMemoRequestDto requestDto) {
+//
+//        MemoResponseDto memoResponseDto =
+//                memoService.save(requestDto.getUsername(),
+//                        requestDto.getTitle(),
+//                        requestDto.getContents()
+//                );
+//        return new ResponseEntity<>(memoResponseDto, HttpStatus.CREATED);
+//    }
+
+    //작성된 메모를 id를 기준으로 검색
     @GetMapping("/{id}")
     public ResponseEntity<MemoGetResponseDto> findById(@PathVariable Long id) {
         MemoGetResponseDto memoGetResponseDto = memoService.findById(id);
@@ -50,18 +53,21 @@ public class MemoController {
         return new ResponseEntity<>(memoGetResponseDto, HttpStatus.OK);
     }
 
+    //작성된 메모를 전체 검색
     @GetMapping
     public ResponseEntity<List<MemoResponseDto>> findAll() {
         List<MemoResponseDto> memoResponseDtoList = memoService.findAll();
         return new ResponseEntity<>(memoResponseDtoList, HttpStatus.OK);
     }
 
+    //작성된 메모 내용 변경
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updateMemo(@PathVariable Long id, @RequestBody UpdateMemoRequestDto requestDto) {
         memoService.updateMemo(id, requestDto.getTitle(), requestDto.getContents());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //메모 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         memoService.delete(id);

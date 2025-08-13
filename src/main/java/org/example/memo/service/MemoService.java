@@ -18,26 +18,13 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemoService {
 
     private final MemoRepository memoRepository;
     private final MemberRepository memberRepository;
 
-//    @Transactional
-//    public MemoResponseDto save(String username, String title, String contents) {
-//        Memo memo = new Memo(username, title, contents);
-//        Memo savedMemo = memoRepository.save(memo);
-//
-//        return new MemoResponseDto(
-//                savedMemo.getId(),
-//                savedMemo.getUsername(),
-//                savedMemo.getTitle(),
-//                savedMemo.getContents(),
-//                savedMemo.getCreatedDate(),
-//                savedMemo.getModifiedDate()
-//        );
-//    }
-
+    //회원 로그인 후 메모 작성
     @Transactional
     public MemoResponseDto save(String title, String contents, Long memberId) {
         Member member =  memberRepository.findById(memberId).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "없는 멤버 입니다."));
@@ -53,7 +40,22 @@ public class MemoService {
         );
     }
 
-    @Transactional(readOnly = true)
+    //메모 작성
+    //    @Transactional
+//    public MemoResponseDto save(String username, String title, String contents) {
+//        Memo memo = new Memo(username, title, contents);
+//        Memo savedMemo = memoRepository.save(memo);
+//
+//        return new MemoResponseDto(
+//                savedMemo.getId(),
+//                savedMemo.getUsername(),
+//                savedMemo.getTitle(),
+//                savedMemo.getContents(),
+//                savedMemo.getCreatedDate(),
+//                savedMemo.getModifiedDate()
+//        );
+//    }
+
     public MemoGetResponseDto findById(Long id) {
 
         Optional<Memo> optionalMemo = memoRepository.findById(id);
@@ -72,7 +74,6 @@ public class MemoService {
         );
     }
 
-    @Transactional(readOnly = true)
     public List<MemoResponseDto> findAll() {
         List<Memo> memos = memoRepository.findAll();
         List<MemoResponseDto> dtos = new ArrayList<>();
@@ -95,7 +96,7 @@ public class MemoService {
         Memo findMemo = memoRepository.findByIdOrElseThrow(id);
         findMemo.updateMemo(title, contents);
     }
-
+    @Transactional
     public void delete(Long id) {
         Memo findMemo = memoRepository.findByIdOrElseThrow(id);
         memoRepository.delete(findMemo);

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 public class MemoResponseDto {
 
-    //응답값(id, 유저명, 제목, 내용)
+    //응답값(id, 유저명, 제목, 내용, 생성날짜, 삭제날짜)
     private final Long id;
 //    private final String username;
     private final String title;
@@ -27,6 +27,7 @@ public class MemoResponseDto {
 //        this.modifiedDate = modifiedDate;
 //    }
 
+    //Member 연관관계 생성자 (username 삭제)
     public MemoResponseDto(Long id, String title, String contents, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
         this.title = title;
