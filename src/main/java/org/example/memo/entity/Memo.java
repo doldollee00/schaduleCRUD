@@ -18,7 +18,7 @@ public class Memo extends BaseEntity {
 //    @Column(nullable = false, unique = true)
 //    private String username;
 
-    @Column(nullable = false, length = 200)
+    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false, columnDefinition = "longtext")

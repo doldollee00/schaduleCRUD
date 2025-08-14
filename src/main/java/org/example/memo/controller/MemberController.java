@@ -2,6 +2,7 @@ package org.example.memo.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.memo.dto.*;
 import org.example.memo.entity.Member;
@@ -21,7 +22,7 @@ public class MemberController {
 
     //회원가입
     @PostMapping("/signup")
-    public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto requestDto) {
+    public ResponseEntity<SignUpResponseDto> signUp(@Valid @RequestBody SignUpRequestDto requestDto) {
         SignUpResponseDto signUpResponseDto = memberService.signUp(requestDto.getUsername(), requestDto.getEmail(), requestDto.getPassword());
 
         return new ResponseEntity<>(signUpResponseDto, HttpStatus.CREATED);
@@ -36,7 +37,7 @@ public class MemberController {
 
     //회원 id기준 정보 업데이트
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateMember(@PathVariable Long id, @RequestBody UpdateMemberRequestDto requestDto) {
+    public ResponseEntity<Void> updateMember(@PathVariable Long id, @Valid @RequestBody UpdateMemberRequestDto requestDto) {
         memberService.updateMember(id, requestDto.getUsername(), requestDto.getEmail());
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -50,7 +51,7 @@ public class MemberController {
 
     //회원 로그인
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto requestDto, HttpServletRequest request){
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto requestDto, HttpServletRequest request){
         Member authenticate = memberService.authenticate(requestDto.getEmail(), requestDto.getPassword());
 
         HttpSession session = request.getSession();    // 신규 세션 생성, JSESSIONID 쿠키 발급

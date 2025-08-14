@@ -33,7 +33,8 @@ public class MemberService {
         Optional<Member> optionalMember = memberRepository.findById(id);
         // NPE 방지
         if (optionalMember.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
+            //throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
+            throw new IllegalArgumentException("삐삐삐!! 해당 멤버가 없습니다. ");
         }
         Member findMember = optionalMember.get();
 

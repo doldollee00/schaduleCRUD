@@ -1,5 +1,6 @@
 package org.example.memo.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.memo.dto.CreateMemoRequestDto;
 import org.example.memo.dto.MemoGetResponseDto;
@@ -10,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.FileReader;
 import java.util.List;
 
 @RestController
@@ -62,7 +62,7 @@ public class MemoController {
 
     //작성된 메모 내용 변경
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateMemo(@PathVariable Long id, @RequestBody UpdateMemoRequestDto requestDto) {
+    public ResponseEntity<Void> updateMemo(@PathVariable Long id, @Valid @RequestBody UpdateMemoRequestDto requestDto) {
         memoService.updateMemo(id, requestDto.getTitle(), requestDto.getContents());
         return new ResponseEntity<>(HttpStatus.OK);
     }
