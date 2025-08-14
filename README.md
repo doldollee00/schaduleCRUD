@@ -44,6 +44,8 @@ src/main/java/org.example.memo
   ├── BaseEntity
   ├── Member 
   ├── Memo
+├── exception
+  ├── GlobalExceptionHandler
 ├── filter
   ├── FilterConfig
   ├── LoginFilter
