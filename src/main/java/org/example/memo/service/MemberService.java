@@ -1,6 +1,7 @@
 package org.example.memo.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.memo.config.PasswordEncoder;
 import org.example.memo.dto.MemberResponseDto;
 import org.example.memo.dto.SignUpResponseDto;
 import org.example.memo.entity.Member;
@@ -18,11 +19,13 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     //회원가입 진행
     @Transactional
     public SignUpResponseDto signUp(String username, String email, String password) {
-        Member member = new Member(username, email, password);
+        String encodedPassword = passwordEncoder.encode(password);
+        Member member = new Member(username, email, encodedPassword);
         Member savedMember = memberRepository.save(member);
 
         return new SignUpResponseDto(savedMember.getId(), savedMember.getUsername(), savedMember.getEmail(), savedMember.getCreatedDate(), savedMember.getModifiedDate());
@@ -72,7 +75,9 @@ public class MemberService {
         Member auth = memberRepository.findByEmail(email).orElseThrow(
                 ()-> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "아이뒤나 비밀번호를 잘 못 입력하셨습니다.")
         );
-        if(!auth.getPassword().equals(password)){
+
+        String matchingPassword = passwordEncoder.matches(password, auth.getPassword()) ? auth.getPassword() : null;
+        if(!auth.getPassword().equals(matchingPassword)){
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "아이뒤나 비밀번호가 일치하지 않습니다.");
         }
         return auth;
