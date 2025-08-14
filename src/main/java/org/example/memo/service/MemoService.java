@@ -56,11 +56,11 @@ public class MemoService {
 //        );
 //    }
 
+    //id 기준 작성된 일정 검색
     public MemoGetResponseDto findById(Long id) {
-
         Optional<Memo> optionalMemo = memoRepository.findById(id);
         if (optionalMemo.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Memo Not Found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "작성된 일정이 없습니다");
         }
 
         Memo findMemo = optionalMemo.get();
@@ -74,6 +74,7 @@ public class MemoService {
         );
     }
 
+    // 작성된 일정 전체 검색
     public List<MemoResponseDto> findAll() {
         List<Memo> memos = memoRepository.findAll();
         List<MemoResponseDto> dtos = new ArrayList<>();
@@ -91,11 +92,14 @@ public class MemoService {
         return dtos;
     }
 
+    //일정 업데이트
     @Transactional
     public void updateMemo(Long id, String title, String contents) {
         Memo findMemo = memoRepository.findByIdOrElseThrow(id);
         findMemo.updateMemo(title, contents);
     }
+
+    //일정 삭제
     @Transactional
     public void delete(Long id) {
         Memo findMemo = memoRepository.findByIdOrElseThrow(id);

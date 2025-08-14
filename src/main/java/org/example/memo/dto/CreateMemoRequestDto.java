@@ -1,7 +1,6 @@
 package org.example.memo.dto;
 
 import lombok.Getter;
-import org.example.memo.entity.Member;
 
 @Getter
 public class CreateMemoRequestDto {

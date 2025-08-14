@@ -5,12 +5,12 @@ import org.example.memo.dto.CreateMemoRequestDto;
 import org.example.memo.dto.MemoGetResponseDto;
 import org.example.memo.dto.MemoResponseDto;
 import org.example.memo.dto.UpdateMemoRequestDto;
-import org.example.memo.repository.MemoRepository;
 import org.example.memo.service.MemoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileReader;
 import java.util.List;
 
 @RestController
@@ -22,7 +22,7 @@ public class MemoController {
 
     //회원 로그인 후 메모 작성
     @PostMapping
-    public ResponseEntity<MemoResponseDto> create(@RequestBody CreateMemoRequestDto requestDto, @PathVariable Long memberId) {
+    public ResponseEntity<MemoResponseDto> create(@Valid @RequestBody CreateMemoRequestDto requestDto, @PathVariable Long memberId) {
 
         MemoResponseDto memoResponseDto =
                 memoService.save(
